@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FAFAFA;
+  color: #1C1C1E;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background-color: #e0e7ff;
+  color: #1C1C1E;
+}
+
+@layer utilities {
+  .section-padding {
+    @apply px-6 py-24 md:py-32;
+  }
+
+  .max-content {
+    @apply max-w-4xl mx-auto;
+  }
+
+  .label {
+    @apply text-xs font-medium tracking-widest uppercase text-indigo-600;
+  }
+}

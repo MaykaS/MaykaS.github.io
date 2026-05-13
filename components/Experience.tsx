@@ -42,19 +42,6 @@ const experiences = [
     ],
     tags: ['STEM Education', 'Leadership', 'Curriculum Design', 'Coaching'],
   },
-  {
-    period: '2015 - 2017',
-    role: 'Commander & Network Administrator, Master Sergeant',
-    company: 'Israel Defense Forces, Signal Corps',
-    location: 'Israel',
-    current: false,
-    description: '',
-    bullets: [
-      'Led secure network deployment → <strong>30% efficiency boost</strong>, 200+ hours downtime saved; awarded <strong>"Most Outstanding Soldier"</strong>',
-      'Coordinated comms systems for <strong>3,000+ personnel</strong> across combat, logistics & intelligence',
-    ],
-    tags: ['Network Administration', 'Leadership', 'Operations'],
-  },
 ]
 
 export default function Experience() {

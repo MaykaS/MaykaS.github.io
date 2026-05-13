@@ -16,11 +16,11 @@ export default function About() {
           </p>
 
           <p className="text-base text-gray-500 leading-relaxed">
-            That curiosity pulled me from software developer into product management. At Segoma, I grew into the person who owned the roadmap, made the hard trade-offs, and brought people together across three continents to build something they were proud of. At Lavie Engineers, the stakes shifted - enterprise clients, complex partners, high-pressure delivery - and I learned that the most expensive thing in any project isn't bad code. It's misalignment.
+            That curiosity pushed me beyond execution and into shaping what gets built, why it matters, and how teams bring it to life. At Segoma, I grew into the person who owned the roadmap, made the hard trade-offs, and brought people together across three continents to build something they were proud of. At Lavie Engineers, the stakes shifted - enterprise clients, complex partners, high-pressure delivery - and I learned that the most expensive thing in any project isn't bad code. It's misalignment.
           </p>
 
           <p className="text-base text-gray-500 leading-relaxed">
-           Now I'm at Cornell's SC Johnson College of Business as a Forte , adding the strategic layer to a foundation that's already technical, already cross-functional, and already proven. I'm not transitioning into product. I've been doing it - and I'm here to do it at a bigger scale, on harder problems, with more impact.
+           Now I'm at Cornell's SC Johnson College of Business as a Forte Fellow, adding the strategic layer to a foundation that's already technical, already cross-functional, and already proven. I'm here to do it at a bigger scale, on harder problems, with more impact.
           </p>
 
           <div className="flex flex-wrap gap-2 pt-2">

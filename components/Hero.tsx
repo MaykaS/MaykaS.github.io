@@ -90,7 +90,7 @@ export default function Hero() {
 
         {/* Role tags */}
         <div className="flex flex-wrap justify-center gap-2 mb-6">
-          {['Product Manager', 'Engineer', 'Cornell MBA', 'Builder'].map((tag) => (
+          {['Builder', 'Product', 'Engineer', 'Cornell MBA'].map((tag) => (
             <span
               key={tag}
               className="text-xs px-3 py-1 rounded-full border border-indigo-500/30 text-indigo-300 bg-indigo-500/10"
@@ -102,7 +102,7 @@ export default function Hero() {
 
         {/* Bio */}
         <p className="text-sm md:text-base text-gray-400 leading-relaxed mb-8 max-w-sm">
-          PM with a CS core  building products at the intersection of tech, people, and systems.
+          Building thoughtful products with technical depth and product judgment.
         </p>
 
         {/* CTAs */}

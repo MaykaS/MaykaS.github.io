@@ -7,6 +7,7 @@ import Volunteering from '@/components/Volunteering'
 import Skills from '@/components/Skills'
 import Interests from '@/components/Interests'
 import Blog from '@/components/Blog'
+import BlogPreview from '@/components/BlogPreview'
 import Contact from '@/components/Contact'
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
       <Skills />
       <Interests />
       <Blog />
+      <BlogPreview />
       <Contact />
     </main>
   )

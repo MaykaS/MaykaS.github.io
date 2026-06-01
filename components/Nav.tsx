@@ -1,17 +1,19 @@
 'use client'
 
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 
 const links = [
-  { label: 'About', href: '#about' },
-  { label: 'Experience', href: '#experience' },
-  { label: 'Education', href: '#education' },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Volunteering', href: '#volunteering' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Interests', href: '#interests' },
-  { label: 'Thoughts', href: '#thoughts' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'About', href: '/#about' },
+  { label: 'Experience', href: '/#experience' },
+  { label: 'Education', href: '/#education' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Volunteering', href: '/#volunteering' },
+  { label: 'Skills', href: '/#skills' },
+  { label: 'Interests', href: '/#interests' },
+  { label: 'Thoughts', href: '/#thoughts' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Contact', href: '/#contact' },
 ]
 
 export default function Nav() {
@@ -33,23 +35,23 @@ export default function Nav() {
       }`}
     >
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a
-          href="#hero"
+        <Link
+          href="/#hero"
           className="text-[#1C1C1E] font-medium text-sm tracking-wide hover:text-indigo-600 transition-colors duration-200"
         >
           Maya Sagalin
-        </a>
+        </Link>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-7">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-sm text-gray-400 hover:text-indigo-600 transition-colors duration-200"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -81,14 +83,14 @@ export default function Nav() {
       {menuOpen && (
         <div className="md:hidden bg-[#FAFAFA]/95 backdrop-blur-md border-b border-gray-100 px-6 pb-5 pt-1">
           {links.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
               className="block py-2.5 text-sm text-gray-500 hover:text-indigo-600 transition-colors"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
         </div>
       )}

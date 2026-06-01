@@ -21,7 +21,8 @@ export default function BlogIndexPage() {
               key={post.slug}
               className="bg-white rounded-3xl border border-gray-100 p-7 md:p-8 shadow-[0_10px_30px_rgba(28,28,30,0.03)]"
             >
-              <p className="text-sm font-medium text-indigo-600 mb-4">{post.author}</p>
+              <p className="text-sm font-medium text-indigo-600 mb-2">{post.author}</p>
+              <p className="text-sm text-gray-400 mb-4">{post.publishedAt}</p>
               <h2 className="text-2xl md:text-3xl font-semibold text-[#1C1C1E] leading-tight mb-4">
                 <Link href={`/blog/${post.slug}`} className="hover:text-indigo-600 transition-colors">
                   {post.title}

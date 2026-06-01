@@ -37,7 +37,10 @@ export default function TabManagementPostPage() {
           <h1 className="text-4xl md:text-5xl font-bold text-[#1C1C1E] tracking-tight leading-tight mb-5">
             {currentPost.title}
           </h1>
-          <p className="text-base md:text-lg text-gray-500 italic">By {currentPost.author}</p>
+          <div className="space-y-1">
+            <p className="text-base md:text-lg text-gray-500 italic">By {currentPost.author}</p>
+            <p className="text-sm text-gray-400">{currentPost.publishedAt}</p>
+          </div>
         </header>
 
         <div className="blog-prose">

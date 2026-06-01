@@ -33,6 +33,21 @@ const posts = [
       'So who were you intending it for?',
     ],
   },
+  {
+    title: "SaaS isn't a bubble. It's infrastructure.",
+    preview:
+      "Agents don't replace SaaS. They become power users of it, which changes the design problem much more than the business model.",
+    body: [
+      "I've heard the argument enough times it started to sound true. AI is coming for the tools. Why pay for software when the model just does it? The SaaS layer collapses, the survivors are the model companies, everything else is noise.",
+      "Except that's not what's happening.",
+      "What's actually happening is people are using AI to do more with the tools they already have. More automations. More integrations. More queries that used to require a ticket or a specialist or a whole afternoon. The product doesn't get replaced. It gets used harder. Agents become power users of your SaaS, not substitutes for it.",
+      "The bubble narrative always had the threat model backwards. Agents need somewhere to put things. They need systems to read, tools to call, data to write back to. SaaS is that infrastructure. More agents means more demand on that layer, not less.",
+      "What does change is who's using it. It used to be one person, one session. Now it's a person and their agent, working through the same product at the same time. That's a genuinely different design problem. Most products were built for a single human doing a single thing, not for a user whose agent just made four hundred API calls and is waiting on a decision.",
+      "The companies that figure that out aren't the ones adding AI to their surface. They're the ones rebuilding the surface for two kinds of users at once.",
+      "SaaS isn't dying. It's just getting a more demanding customer.",
+      "The question is whether your product was built for the one that's coming.",
+    ],
+  },
 ]
 
 export default function Blog() {

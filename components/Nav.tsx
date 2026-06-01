@@ -37,7 +37,7 @@ export default function Nav() {
       <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           href="/#hero"
-          className="text-[#1C1C1E] font-medium text-sm tracking-wide hover:text-indigo-600 transition-colors duration-200"
+          className="shrink-0 whitespace-nowrap text-[#1C1C1E] font-medium text-sm tracking-wide hover:text-indigo-600 transition-colors duration-200 pr-4"
         >
           Maya Sagalin
         </Link>

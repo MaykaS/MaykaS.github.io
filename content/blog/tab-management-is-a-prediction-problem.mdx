@@ -1,3 +1,10 @@
+<figure>
+  <img
+    src="/images/blog/tab-management-friction-by-load.png"
+    alt="Line chart comparing modeled friction per tab switch across 10, 50, and 100 open tabs for a naive 30-minute idle baseline versus Tab Agent."
+  />
+</figure>
+
 Rich Sutton's bitter lesson is that systems built around hand-coded assumptions tend to lose, over time, to systems that can use data, search, and learning as the problem scales. Tab management has not absorbed this lesson yet. The conventional advice for a user with a hundred Chrome tabs is to close some, bookmark a few, and let a fixed rule sleep the rest after a timer expires. That framing treats the tab bar as a cleanup queue rather than as a live working set whose value changes with the user, the task, and the moment.
 
 Once you look at the tab bar as a working set, the central question changes. The browser should not ask only how long a page has been idle; it should estimate whether that page is likely to be needed soon. A predictor does not have to be magical to be useful. It only has to outperform a global rule that treats a Figma board, a forgotten article, and a half-finished form as equivalent.
@@ -34,13 +41,13 @@ Tab Agent is a local-first Chrome extension. The controller runs entirely on-dev
 
 The loop is four steps: observe, predict, act, learn.
 
-Observe is the boring, important part. A background service worker logs tab lifecycle events (creates, activations, switches, discards, closes) along with the active tab, cached group assignments, asleep state, recent activations, and any tabs the user has explicitly marked as protected. Visit history is stored in `chrome.storage.local`. URLs are the stable identifier; I deliberately do not key on Chrome tab IDs because they go stale after a discard, which is a footgun every naive tab manager eventually trips on.
+**Observe** is the boring, important part. A background service worker logs tab lifecycle events (creates, activations, switches, discards, closes) along with the active tab, cached group assignments, asleep state, recent activations, and any tabs the user has explicitly marked as protected. Visit history is stored in `chrome.storage.local`. URLs are the stable identifier; I deliberately do not key on Chrome tab IDs because they go stale after a discard, which is a footgun every naive tab manager eventually trips on.
 
-Predict runs against the observed state. The job is narrow: estimate near-term need per tab. The current implementation is a heuristic policy. Recency, activation frequency, context co-occurrence, protected-context membership, and a few derived signals combine into a need score. I don't train a model online; I tune the policy's weights and thresholds from feedback. The naming is honest about this. It's adaptive policy tuning, not RL. It would become RL if you swapped the heuristic for a learned value function with bootstrapped targets, and that's a reasonable v2 direction. It isn't what's there today.
+**Predict** runs against the observed state. The job is narrow: estimate near-term need per tab. The current implementation is a heuristic policy. Recency, activation frequency, context co-occurrence, protected-context membership, and a few derived signals combine into a need score. I don't train a model online; I tune the policy's weights and thresholds from feedback. The naming is honest about this. It's adaptive policy tuning, not RL. It would *become* RL if you swapped the heuristic for a learned value function with bootstrapped targets, and that's a reasonable v2 direction. It isn't what's there today.
 
-Act is where the autonomy boundary lives. v1 allows two autonomous actions, `auto_sleep` and `auto_wake`, both reversible. `auto_sleep` calls Chrome's `tabs.discard()` API, which frees memory but keeps the tab in the bar. `auto_wake` reactivates a slept tab when the user enters a related context (opening a Figma tab wakes the linked Notion spec from the same project group). What the agent never does is close a tab. Close is destructive: a closed tab leaves the browser, and getting it back requires the user. No autonomous policy of mine gets to take destructive actions, regardless of confidence. The cloud-layer LLM (used only for evaluation) cannot trigger browser actions at all. The local Gemini Nano controller has exclusive write authority over the tab state.
+**Act** is where the autonomy boundary lives. v1 allows two autonomous actions, `auto_sleep` and `auto_wake`, both reversible. `auto_sleep` calls Chrome's `tabs.discard()` API, which frees memory but keeps the tab in the bar. `auto_wake` reactivates a slept tab when the user enters a related context (opening a Figma tab wakes the linked Notion spec from the same project group). What the agent never does is close a tab. Close is destructive: a closed tab leaves the browser, and getting it back requires the user. No autonomous policy of mine gets to take destructive actions, regardless of confidence. The cloud-layer LLM (used only for evaluation) cannot trigger browser actions at all. The local Gemini Nano controller has exclusive write authority over the tab state.
 
-Learn runs after every autonomous action. The system records explicit feedback (Undo, Protect, Good, Bad) and infers implicit feedback from outcomes. A quick reopen after auto-sleep is a regret signal. A tab that stays slept for fifteen minutes without being requested is a confirmation signal. A manual wake right after auto-sleep is a stronger regret signal. These collapse into a simple reward map (`safe_after_15m: +1`, `protect: -0.5`, `undo: -1`) that nudges the policy's caution thresholds. I'm not trying to converge on a perfect policy. I'm trying to get less wrong over the course of a session about the specific user the controller is running for.
+**Learn** runs after every autonomous action. The system records explicit feedback (Undo, Protect, Good, Bad) and infers implicit feedback from outcomes. A quick reopen after auto-sleep is a regret signal. A tab that stays slept for fifteen minutes without being requested is a confirmation signal. A manual wake right after auto-sleep is a stronger regret signal. These collapse into a simple reward map (`safe_after_15m: +1`, `protect: -0.5`, `undo: -1`) that nudges the policy's caution thresholds. I'm not trying to converge on a perfect policy. I'm trying to get less wrong over the course of a session about the specific user the controller is running for.
 
 ## The benchmark, and what it shows
 
@@ -48,29 +55,16 @@ To compare Tab Agent against the dominant fixed-rule strategy, I built a scenari
 
 The hero figure is at the top of this post. Average friction per tab switch grows roughly linearly with memory load under both policies, but the slopes are very different. Tab Agent stays under 0.25 seconds per switch even at 100 open tabs. The naive baseline crosses 1.2 seconds. Across all three loads, the ratio is about 5.3x.
 
-<figure>
-  <img
-    src="/images/blog/tab-management-friction-by-load.png"
-    alt="Line chart comparing modeled friction per tab switch across 10, 50, and 100 open tabs for a naive 30-minute idle baseline versus Tab Agent."
-  />
-  <figcaption>
-    Scenario-grounded replay benchmark with calibrated reload costs. Modeled, not wall-clock.
-  </figcaption>
-</figure>
-
 The more interesting plot is the second one.
-
-Same comparison, but the y-axis is the rate of friction events: the share of tab switches where the user hits a cold reactivation at all, regardless of how long it takes. At 100 tabs, the naive baseline lands a friction event on more than three-quarters of switches. Tab Agent stays around 14%. The gap between the two isn't that Tab Agent reloads tabs faster. It's that Tab Agent puts the user in a reload moment far less often.
 
 <figure>
   <img
     src="/images/blog/tab-management-cold-reactivation-rate.png"
     alt="Line chart comparing cold reactivation event rates across memory loads for a naive baseline and Tab Agent."
   />
-  <figcaption>
-    The gap is event-rate, not reload speed: Tab Agent doesn't make Chrome faster, it puts you in fewer bad moments.
-  </figcaption>
 </figure>
+
+Same comparison, but the y-axis is the *rate* of friction events: the share of tab switches where the user hits a cold reactivation at all, regardless of how long it takes. At 100 tabs, the naive baseline lands a friction event on more than three-quarters of switches. Tab Agent stays around 14%. The gap between the two isn't that Tab Agent reloads tabs faster. It's that Tab Agent puts the user in a reload moment far less often.
 
 That's the crux of why the prediction framing works. Per-event reload speed is a function of Chrome internals, page weight, and network. Tab Agent doesn't touch any of those. What it touches is the decision of whether you're going to be in that situation at all. A fixed-rule policy decides this badly because it ignores almost all relevant signal. A predictive policy decides it better because it doesn't.
 
@@ -82,7 +76,7 @@ Reload delays in the replay are modeled, not measured. I calibrated them to plau
 
 The replay traces are scenario-grounded, not user-recorded. They span realistic patterns (research sessions, multi-project knowledge work, shopping, single-domain research) but no real user generated the click stream. A v2 evaluation should replay traces collected from the live extension under both policies, which is what the cloud telemetry layer is designed for.
 
-"Policy evidence" means the comparison shows the decision rule matters. Choosing tabs intelligently beats choosing tabs by clock time, by a large margin, on identical traces. It does not show that real users save real seconds in real sessions. That requires live instrumentation: timestamps on slept-tab reactivation, on navigation start, on the page becoming meaningfully usable again, on whether the wake was Tab Agent's call or a user-initiated request. The schema is designed. It hasn't shipped.
+"Policy evidence" means the comparison shows the decision rule matters. Choosing tabs intelligently beats choosing tabs by clock time, by a large margin, on identical traces. It does *not* show that real users save real seconds in real sessions. That requires live instrumentation: timestamps on slept-tab reactivation, on navigation start, on the page becoming meaningfully usable again, on whether the wake was Tab Agent's call or a user-initiated request. The schema is designed. It hasn't shipped.
 
 The right way to read the benchmark, then: the prediction framing produces dramatically less friction than the fixed-rule framing, in a controlled comparison where both policies are evaluated on identical traces and identical reload models. Real result, constrained scope.
 
@@ -104,6 +98,6 @@ Tab Agent is one small instance of the right abstraction. The same shape general
 
 The afternoon is what your tab bar looks like.
 
-Code: [github.com/MaykaS/tab_agent](https://github.com/MaykaS/tab_agent). Web: [tab-agent-web.vercel.app](https://tab-agent-web.vercel.app).
+*Code:* [github.com/MaykaS/tab_agent](https://github.com/MaykaS/tab_agent). *Web:* [tab-agent-web.vercel.app](https://tab-agent-web.vercel.app).
 
-Benchmark is policy evidence under modeled reload costs. Wall-clock instrumentation is the next milestone.
+*Benchmark is policy evidence under modeled reload costs. Wall-clock instrumentation is the next milestone.*

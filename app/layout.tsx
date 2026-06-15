@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 import Nav from '@/components/Nav'
 
 const inter = Inter({
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans bg-[#FAFAFA] text-[#1C1C1E] antialiased">
+        <GoogleAnalytics />
         <Nav />
         {children}
         <footer className="border-t border-gray-100 py-8 px-6 text-center text-sm text-gray-400">

@@ -1,3 +1,7 @@
+'use client'
+
+import { trackOutboundClick } from '@/lib/gtag'
+
 const contacts = [
   {
     label: 'Email',
@@ -88,6 +92,12 @@ export default function Contact() {
                   target={contact.href.startsWith('mailto') ? undefined : '_blank'}
                   rel={contact.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                   className="group flex items-center gap-4 text-gray-400 hover:text-indigo-600 transition-colors duration-200"
+                  onClick={() =>
+                    trackOutboundClick(
+                      contact.label.toLowerCase() as 'linkedin' | 'github' | 'email',
+                      'contact'
+                    )
+                  }
                 >
                   <span className="group-hover:text-indigo-600 transition-colors duration-200">
                     {contact.icon}

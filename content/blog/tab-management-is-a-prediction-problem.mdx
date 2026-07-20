@@ -96,8 +96,6 @@ Tab management is the surface. The thing underneath is that browser state should
 
 Tab Agent is one small instance of the right abstraction. The same shape generalizes anywhere "what should be in fast memory" is decided by a fixed rule: recently-closed-app behavior on phones, working-set decisions in the OS, tab-restore behavior across Chrome restarts. None of those are getting predictive treatment, for the same reason tab management isn't. Cleanup ships in an afternoon. Prediction means committing to a loop on the user's machine and being honest when it gets things wrong. Most teams pick the afternoon.
 
-The afternoon is what your tab bar looks like.
-
 *Code:* [github.com/MaykaS/tab_agent](https://github.com/MaykaS/tab_agent). *Web:* [tab-agent-web.vercel.app](https://tab-agent-web.vercel.app).
 
 *Benchmark is policy evidence under modeled reload costs. Wall-clock instrumentation is the next milestone.*

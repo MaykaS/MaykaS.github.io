@@ -1,5 +1,31 @@
 const experiences = [
   {
+    period: '2026',
+    role: 'Product Strategy Intern',
+    company: 'Stealth AI Startup',
+    location: 'New York, US',
+    current: false,
+    description: 'Early-stage AI product strategy and concept validation work.',
+    bullets: [
+      'Accelerated product definition by leading <strong>user research</strong>, workflow analysis, and competitive research, translating findings into prioritized AI use cases, product requirements, and an MVP roadmap to guide early product development',
+      'Improved product decision-making by <strong>prototyping and testing AI concepts</strong> with stakeholders, refining user journeys, success criteria, and feature requirements to validate feasibility and strengthen product value',
+    ],
+    tags: ['AI Strategy', 'User Research', 'MVP Roadmap', 'Prototyping', 'Product Requirements'],
+  },
+  {
+    period: '2026',
+    role: 'MBA Consultant, Enterprise AI / Product Strategy',
+    company: 'Oracle',
+    location: 'New York, US',
+    current: false,
+    description: 'Enterprise AI product strategy work for a financial-services customer-service use case.',
+    bullets: [
+      'Advised an Oracle sponsor on <strong>enterprise AI product strategy</strong>, developing a prototype, <strong>PR/FAQ</strong>, PRD, demo narrative, and executive pitch to position OCI as a governed CX solution',
+      'Analyzed customer service workflows, competitive positioning, ROI levers, and adoption requirements to frame <strong>Generative AI</strong> and <strong>Agentic AI Services</strong> around secure RAG, auditability, human-in-the-loop governance, and deployment',
+    ],
+    tags: ['Enterprise AI', 'Product Strategy', 'GenAI', 'PRD', 'Executive Communication'],
+  },
+  {
     period: '2024 - 2025',
     role: 'Project Manager',
     company: 'Lavie Engineers S.B Ltd',
